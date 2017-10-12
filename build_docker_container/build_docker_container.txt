@@ -1,0 +1,32 @@
+1. install oracle's virtual box on the mac
+
+2. login to docker
+
+	docker login
+	
+3. create virtual machine called dev
+
+	docker-machine create --driver virtualbox dev
+	
+4. configure your shell and set some environment variables so that Docker can talk to the dev virtual machine running Docker Engine
+
+5. create docker file
+
+	cd ~
+	mkdir ./build_docker_container
+	cd build_docker_container
+	touch Dockerfile
+	
+6. open Docker file in editor and paste following commands
+
+	FROM ruby:2.2
+	 
+	RUN apt-get update && gem update --system && gem install bundler 
+	RUN git init
+	RUN git remote add origin https://github.com/Distelli/sinatra-app
+	RUN git fetch
+	RUN git checkout -t origin/master
+	RUN bundle install 
+	EXPOSE 8080 
+	CMD ["rackup", "-p", "8080", "--host", "127.0.0.1"]
+
